@@ -8,7 +8,7 @@ const pool = require("../db.js");
 router.get('/', async (req, res) => { 
     //grab all the nikkes
     try {
-        const [rows] = await pool.query("SELECT * FROM characters"); 
+        const [rows] = await pool.query("SELECT * FROM characters UNION ALL SELECT * FROM treasures");
         res.json(rows);
     }
     catch (error){
