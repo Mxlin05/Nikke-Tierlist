@@ -362,12 +362,6 @@ def scrape_all_character_data(character_list):
     max_attempts = 1
 
     with open(character_list, 'r') as f: #open the txt file, iterate through each line, and call scrape_character 
-        period_book = scrape_all_banners(period_book)
-
-        if not period_book:
-            print(f"Scraping of all nikke banner dates has failed. Aborting entire process")
-            return [check_book,treasure_book,banner_book]
-
         for line in f: 
             attempts = 0
             char_data = False
@@ -380,6 +374,12 @@ def scrape_all_character_data(character_list):
                 check_book[line.split(',')[0].title()] = True
                 temp_duplicates.append(line.split(',')[0].title())
                 continue
+            
+            if not period_book: #if period book hasn't been filled fill it.
+                period_book = scrape_all_banners(period_book)
+                if not period_book:
+                    print(f"Scraping of all nikke banner dates has failed. Aborting entire process")
+                    return [check_book,treasure_book,banner_book]
 
             while attempts < max_attempts:
                 time.sleep(2)

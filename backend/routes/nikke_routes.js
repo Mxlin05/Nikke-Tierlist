@@ -8,7 +8,7 @@ const pool = require("../db.js");
 router.get('/', async (req, res) => { 
     //grab all the nikkes
     try {
-        const [rows] = await pool.query("SELECT * FROM characters UNION ALL SELECT * FROM treasures");
+        const [rows] = await pool.query("SELECT * FROM characters UNION ALL SELECT * FROM treasures"); //use [rows] to do result[0], destructure array to grab data only and not metadata. {data, metadata}
         res.json(rows);
     }
     catch (error){

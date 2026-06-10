@@ -3,13 +3,18 @@ const cors = require('cors');
 const { spawn } = require('child_process');
 const path = require('path');
 const pool = require('./db');
+const cookieParser = require('cookie-parser');
 require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT || 3000; 
 
-app.use(cors());
+app.use(cors({
+    origin: 'http://localhost:5173', //react app URL
+    credentials: true //tells browsers they are allowed to save cookies from this server
+})); //Cross origin resource sharing middleware
 app.use(express.json());
+app.use(cookieParser()); //read incoming cookies into res.cookies
 
 function executeStartupScrape() { 
     //creates a separate python process to run scrape.py in ./setup directory to scrape prydwen once on server startup
@@ -37,8 +42,12 @@ function executeStartupScrape() {
 }
 
 const nikkeRoutes = require("./routes/nikke_routes.js");
+const authRoutes = require("./routes/auth_routes.js");
 
 app.use('/api/nikkes', nikkeRoutes);
+app.use('/api/auth', authRoutes);
+
+//npm run dev
 
 app.listen(PORT, () => { //start the server up by listening at the PORT for connections
     console.log(`Express server listening on http://localhost:${PORT}`);

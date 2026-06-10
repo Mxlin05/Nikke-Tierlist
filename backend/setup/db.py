@@ -92,6 +92,17 @@ def init_database():
 
             cursor.execute(create_table_query)
             print("Table 'release_history' checked/created successfully")
+
+            create_table_query = """
+            CREATE TABLE IF NOT EXISTS users(
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                username VARCHAR(100) UNIQUE NOT NULL,
+                password VARCHAR(100)
+            )
+            """
+
+            cursor.execute(create_table_query)
+            print("Table 'users' checked/created successfully")
         return connection
     except Error as e: 
         print(f"Error in initializing database: {e}")

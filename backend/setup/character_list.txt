@@ -159,3 +159,5 @@ yuni
 brid
 harran
 kilo
+mint
+prika
