@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import Auth from "./components/Auth"
+import Nikkepedia from './components/Roster';
 
-const link = 'http://localhost:3000/'
+const link = 'http://localhost:3000/';
 
 function App() {
   const [nikkes, setNikkes] = useState([]);
@@ -22,6 +23,7 @@ function App() {
         return response.json()
       })
       .then((data) => {
+        console.log(data);
         setNikkes(data); //save the array of nikke data
         setLoading(false); //Turn off loading text
       })
@@ -88,10 +90,10 @@ function App() {
   }
   else {
     return (
-      <div className="min-h-screen bg-slate-900 text-white p-8">
-        <div className="max-w-6xl mx-auto">
+      <div className="min-h-screen bg-slate-900 text-white pb-8">
+        <div className="max-w-[1550px] mx-auto px-8">
             {/* Header Section with Logout Button */}
-          <div className="flex justify-between items-center mb-8 border-b border-slate-700 pb-4">
+          <div className="sticky top-0 z-20 bg-slate-900 pt-8 pb-4 mb-8 border-b border-slate-700 flex justify-between items-center">
             <h1 className="text-4xl font-bold text-blue-400">
               Nikke Roster
             </h1>
@@ -108,28 +110,14 @@ function App() {
               </button>
             </div>
           </div>
-      
+
           {/* Show a loading message if the fetch hasn't finished yet */}
           {loading && <p className="text-center text-slate-400 text-xl">Loading database...</p>}
   
-          {/* The Grid Container */}
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-            
-            {/* Loop through the 'nikkes' array and create a card for each one */}
-            {nikkes.map((nikke) => (
-              <div 
-                key={nikke.id} 
-                className="bg-slate-800 border border-slate-700 rounded-lg p-4 flex items-center justify-center hover:bg-slate-700 hover:border-blue-400 transition-all cursor-pointer shadow-md"
-              >
-                <p className="font-semibold text-lg text-slate-100">
-                  {nikke.name}
-                </p>
-              </div>
-            ))}
+          <Nikkepedia roster={nikkes}/>
   
           </div>
         </div>
-      </div>
     );
   }    
 }

@@ -1,5 +1,5 @@
 import { useState } from "react";
-const link = 'http://localhost:3000/'
+const link = 'http://localhost:3000/';
 
 function Auth(){
     const [isLogin,setIsLogin] = useState(true);

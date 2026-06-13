@@ -19,7 +19,7 @@ def extract_burst_type(srcset, char_data, name):
         print(f"{name} failed burst type scraping, webscraper failed")
         return
 
-    match = re.search(r'Type (\d|all)',srcset) #check for type_#, and capture the number or "all"
+    match = re.search(r'Type (\d|All)',srcset) #check for type_#, and capture the number or "all"
 
     if match: 
         result = match.group(1) #grab the first capture group, which should be the number
@@ -161,13 +161,13 @@ def scrape_character(char_data, name):
                 char_intro = intro_block.inner_text().strip() #grab text character stats
                 extract_base_info(char_intro, char_data, name)
                 
-                burst_source_img = intro_block.locator("img[alt*='Type']").first #grab the image source that says type 1 type 2 type 3
+                burst_source_img = intro_block.locator("img[alt*='Type']").first #grab the image source that says type 1 type 2 type 3. *= is css operator for contains
                 # print(f"was able to grab the burst {burst_source_img}")
                 alt = burst_source_img.get_attribute("alt")
                 # print(f"grabbed srcset {srcset}")
                 extract_burst_type(alt, char_data, name) #extract burst type
 
-                kit_block = page.locator(".skills .grid > div").all() #find the div with skills as the class, and add it to the dictionary 
+                kit_block = page.locator(".skills .grid > div").all() #find element with .skills, and find element nested in .skills with .grid. Then Extract only the direct descendent divs of .grid and store it.
                 extract_skills(kit_block, char_data, name)
             except Exception as e: 
                 print(f"Error in scraping data for {name}. Error is {e}")

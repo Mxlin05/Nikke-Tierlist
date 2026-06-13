@@ -24,6 +24,11 @@ def init_database():
     """
     output: connection to sql database/or none
     function: connects to the mysql server, creates database and tables if they don't exist
+    
+    Overview of databases:
+    characters ----- release_history
+    treasures
+    users
     """
 
     try: 
@@ -35,7 +40,7 @@ def init_database():
             print(f"Database: {DB_NAME} checked/created successfully")
 
             cursor.execute(f"USE {DB_NAME}")
-
+            #all characters
             create_table_query = """ 
             CREATE TABLE IF NOT EXISTS characters(
                 id INT AUTO_INCREMENT PRIMARY KEY,
@@ -57,7 +62,7 @@ def init_database():
 
             cursor.execute(create_table_query)
             print("Table 'characters' checked/created successfully")
-
+            #if characters have a treasure, they will have a separate entry here
             create_table_query = """
             CREATE TABLE IF NOT EXISTS treasures(
                 id INT AUTO_INCREMENT PRIMARY KEY,
@@ -79,7 +84,7 @@ def init_database():
 
             cursor.execute(create_table_query)
             print("Table 'treasures' checked/created successfully")
-
+            #all characters banner periods, if they didn't have a banner default is the game's release date
             create_table_query = """
             CREATE TABLE IF NOT EXISTS release_history(
                 id INT AUTO_INCREMENT PRIMARY KEY,
@@ -92,7 +97,7 @@ def init_database():
 
             cursor.execute(create_table_query)
             print("Table 'release_history' checked/created successfully")
-
+            #users table
             create_table_query = """
             CREATE TABLE IF NOT EXISTS users(
                 id INT AUTO_INCREMENT PRIMARY KEY,
