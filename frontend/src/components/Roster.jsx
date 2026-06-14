@@ -9,6 +9,7 @@ function Nikkepedia({roster}){
     const [classification, setClassification] = useState("*"); 
     const [treasure, setTreasure] = useState("*");
     const [overspec, setOverspec] = useState("*");
+    const [search, setSearch] = useState("");
 
     const filteredRoster = useMemo(() => {//useMemo makes it so that this function is only ever ran upon change of any of the states, not upon re-renders
         return roster.filter((nikke) => { //massive filter function, if the sorting is "*", take all nikkes, if not, match the nikkes properties. Filter works by letting nikke into the list if the function inside returns true
@@ -17,12 +18,13 @@ function Nikkepedia({roster}){
             const filterManufacturer = manufacturer === "*" || nikke.manufacturer?.trim().toLowerCase() === manufacturer.trim().toLowerCase();
             const filterBurst = (burst === "*" || nikke.burst?.toString() === burst) || nikke.name === "Red Hood";
             const filterClassfication = classification === "*" || nikke.class?.trim().toLowerCase() === classification.trim().toLowerCase();
-            const filterTreasure = treasure === "*" || (nikke.treasure === 1 && nikke.name.includes("(Treasure)"));
+            const filterTreasure = treasure === "*" || (nikke.treasure === 1 && nikke.name?.includes("(Treasure)"));
             const filterOverspec = overspec === "*" || nikke.overspec === 1;
+            const filterSearch = search === "" || nikke.name?.trim().toLowerCase().includes(search.trim().toLowerCase());
 
-            return filterWeapon && filterElement && filterManufacturer && filterBurst && filterClassfication && filterTreasure && filterOverspec;
+            return filterWeapon && filterElement && filterManufacturer && filterBurst && filterClassfication && filterTreasure && filterOverspec && filterSearch;
         });
-    }, [roster, weapon, element, manufacturer, burst, classification, treasure, overspec]);
+    }, [roster, weapon, element, manufacturer, burst, classification, treasure, overspec, search]);
 
     const handleSwitch = (state, setState, activeName) => { //handle the case where you want to switch to all nikkes or just specifically treasure or overspec
         if (state === "*"){
@@ -33,7 +35,7 @@ function Nikkepedia({roster}){
         }
     };
 
-    const handleReset = () => {
+    const handleReset = () => { //set all filters back to default   
         setWeapon("*");
         setElement("*");
         setManufacturer("*");
@@ -41,6 +43,7 @@ function Nikkepedia({roster}){
         setClassification("*");
         setTreasure("*");
         setOverspec("*");
+        setSearch("");
         return;
     };
 
@@ -55,6 +58,17 @@ function Nikkepedia({roster}){
         <div className="flex flex-col lg:flex-row gap-8 items-start">
             {/*Sort by Weapon, Element, Manufacturer, Burst Type, Class*/}
             <div className="w-full lg:w-[380px] shrink-0 bg-slate-800 p-6 rounded-lg border border-slate-700 flex flex-col gap-6 shadow-md sticky top-31 z-10 max-h-[85vh] overflow-y-auto">
+                <div className="flex flex-col gap-2">
+                    <span className="text-slate-300 font-bold border-b border-slate-700 pb-1 mb-1">Search: </span>
+                    <input
+                        type="text"
+                        placeholder="Search"
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
+                        className="w-full bg-slate-900 border border-slate-600 text-slate-100 px-3 py-2 rounded focus:outline-none focus:border-blue-500 transition-colors"
+                    />
+                </div>
+                
                 <div className="flex flex-col gap-2">
                     <span className="text-slate-300 font-bold border-b border-slate-700 pb-1 mb-1">Weapon: </span>
                     <div className="flex flex-wrap gap-2">

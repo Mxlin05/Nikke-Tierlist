@@ -9,7 +9,7 @@ function Auth(){
     const [retypepassword, setRetypePassword] = useState("");
     const [error, setError] = useState("");
     
-    const handleSubmit = async(e) => { //function to handle submit
+    const handleSubmit = async(e) => { //function to handle submit. If you are submitting through a form element, you need an argument of e to prevent an auto refresh of the page. e = event, contains meta data on user action
         e.preventDefault(); //prevents page from refreshing on submit
         setError('');
 
