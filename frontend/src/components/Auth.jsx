@@ -1,5 +1,5 @@
 import { useState } from "react";
-const link = 'http://localhost:3000/';
+const link = import.meta.env.VITE_API_LINK;
 
 function Auth(){
     const [isLogin,setIsLogin] = useState(true);
@@ -9,6 +9,8 @@ function Auth(){
     const [retypepassword, setRetypePassword] = useState("");
     const [error, setError] = useState("");
     
+    //setVariable only queues the variable to be modified, and will be changed the next time react redraws the page
+
     const handleSubmit = async(e) => { //function to handle submit. If you are submitting through a form element, you need an argument of e to prevent an auto refresh of the page. e = event, contains meta data on user action
         e.preventDefault(); //prevents page from refreshing on submit
         setError('');
@@ -23,10 +25,11 @@ function Auth(){
             setIsMatch(false);
         }
         try { //pause the function here and wait for the response from the server
+            const trimmedUsername = username.trim();
             const response = await fetch(`${link}api/auth/${endpoint}`, { //fetch returns a promise that probably resolves to a response
                 method: 'POST', //post method to not store sensitive info in the link
                 headers: {'Content-Type': 'application/json'}, //tells server contents of the body are json
-                body: JSON.stringify({username, password}), //takes username and password and turns it into strings
+                body: JSON.stringify({username: trimmedUsername, password}), //takes username and password and turns it into strings
                 credentials: 'include' //tells browser to accept cookies from the server response
             });
 

@@ -28,7 +28,7 @@ def init_database():
     Overview of databases:
     characters ----- release_history
     treasures
-    users
+    users ----- tierrows
     """
 
     try: 
@@ -97,17 +97,36 @@ def init_database():
 
             cursor.execute(create_table_query)
             print("Table 'release_history' checked/created successfully")
-            #users table
+            #users table, maybe move password up to varchar(255)
             create_table_query = """
             CREATE TABLE IF NOT EXISTS users(
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 username VARCHAR(100) UNIQUE NOT NULL,
-                password VARCHAR(100)
+                password VARCHAR(100) 
             )
             """
 
             cursor.execute(create_table_query)
             print("Table 'users' checked/created successfully")
+
+            #tierlist nodes tables. Head nodes have all unranked nikkes by the user, all other nodes are ranks made by the player
+            create_table_query = """
+            CREATE TABLE IF NOT EXISTS tierrows(
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                username VARCHAR(100) NOT NULL,
+                tier_title VARCHAR(50),
+                layer_title VARCHAR(50),
+                description TEXT,
+                sort_order INT NOT NULL, 
+                isUnranked BOOLEAN DEFAULT FALSE,
+                nikkes JSON,
+                FOREIGN KEY (username) REFERENCES users(username) ON DELETE CASCADE
+            )
+            """
+            
+            cursor.execute(create_table_query)
+            print("Table 'tierrows' checked/created successfully")
+
         return connection
     except Error as e: 
         print(f"Error in initializing database: {e}")

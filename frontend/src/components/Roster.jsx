@@ -1,6 +1,7 @@
 import { useState, useMemo } from "react";
-const link = 'http://localhost:3000/';
+const link = import.meta.env.VITE_API_LINK;
 
+//produces a database of all nikkes in the game, with a custom filtering system
 function Nikkepedia({roster}){
     const [weapon, setWeapon] = useState("*"); //fields to store the different sorting types
     const [element, setElement] = useState("*");
@@ -26,7 +27,7 @@ function Nikkepedia({roster}){
         });
     }, [roster, weapon, element, manufacturer, burst, classification, treasure, overspec, search]);
 
-    const handleSwitch = (state, setState, activeName) => { //handle the case where you want to switch to all nikkes or just specifically treasure or overspec
+    const handleSwitch = (state, setState, activeName) => { //handle the case where you want to switch to all nikkes or just specifically treasure or overspec. On and off switch
         if (state === "*"){
             setState(activeName);
         }
