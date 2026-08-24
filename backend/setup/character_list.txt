@@ -163,3 +163,6 @@ mint
 prika
 Ark Ranger Black
 Cinderella: Crystal Wave
+Marciana: Marine Study
+Laplace: Ultimate Hero
+Maxwell: Ordinary Mechanic
